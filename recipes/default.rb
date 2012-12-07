@@ -17,8 +17,6 @@
 # limitations under the License.
 #
 
-include_recipe "apt"
-
 template "/etc/apt/sources.list" do
   mode 00644
   variables(
@@ -29,4 +27,10 @@ template "/etc/apt/sources.list" do
   )
   notifies :run, "execute[apt-get update]", :immediately
   source "sources.list.erb"
+end
+
+execute "apt-get update" do
+  command "apt-get update -y"
+  ignore_failure true
+  action :nothing
 end
